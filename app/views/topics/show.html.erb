@@ -1,0 +1,23 @@
+<h1><%= @topic.name %></h1>
+<p><%= @topic.description %></p>
+
+  <% if policy(@topic).update? %>
+    <%= link_to "Edit topic", edit_topic_path, class: 'btn btn-success' %>
+  <% end %>
+
+<% @posts.each do |post| %>
+  <div> <%= link_to post.title, [@topic, post] %> </div>
+
+  <small>
+    submitted <%= time_ago_in_words(post.created_at)%> ago by <%= post.user.name %> <br/>
+    <%= post.comments.count %> Comments
+  </small>
+
+<% end %>
+
+<div>
+  <% if policy(Post.new).create? %>
+    <!-- ik moet nog even bij Olivier dubbelchecken wat die @topic precies doet-->
+    <%= link_to "New post", new_topic_post_path(@topic), class: 'btn btn-success' %>
+  <% end %>
+</div>

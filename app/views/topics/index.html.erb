@@ -1,0 +1,8 @@
+<% @topics.each do |topic|%>
+<%= link_to topic.name, topic %>
+<p><%= topic.description %> </p>
+<% end %>
+
+<% if policy(Topic.new).create? %>
+<%= link_to "New Topic", new_topic_path, class: 'btn btn-success' %>
+<% end %>
