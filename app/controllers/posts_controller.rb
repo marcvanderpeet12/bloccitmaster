@@ -25,6 +25,7 @@ class PostsController < ApplicationController
     # @post.topic
     authorize @post
     if @post.save
+      @post.create_vote
 
       flash[:notice] = "Post was saved."
       #@post = post/1 bijvoorbeeld

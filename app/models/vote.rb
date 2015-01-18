@@ -9,6 +9,7 @@ class Vote < ActiveRecord::Base
   private
 
   def update_post
+    #je roep hier dus een method aan in de post!
     post.update_rank
   end
   
