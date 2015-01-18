@@ -12,4 +12,13 @@ class TopicPolicy < ApplicationPolicy
     create?
   end
 
+  #je zegt dus indirect dat je de create voorwaarden wilt gebruiken -> destroy -> update -> create
+  def destroy?
+    update?
+  end
+
+  def edit
+    
+  end
+
 end

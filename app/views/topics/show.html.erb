@@ -1,23 +1,34 @@
 <h1><%= @topic.name %></h1>
-<p><%= @topic.description %></p>
 
-  <% if policy(@topic).update? %>
-    <%= link_to "Edit topic", edit_topic_path, class: 'btn btn-success' %>
-  <% end %>
-
-<% @posts.each do |post| %>
-  <div> <%= link_to post.title, [@topic, post] %> </div>
-
-  <small>
-    submitted <%= time_ago_in_words(post.created_at)%> ago by <%= post.user.name %> <br/>
-    <%= post.comments.count %> Comments
-  </small>
-
+<% if policy(@topic).update? %>
+  <%= link_to "Edit Topic", edit_topic_path, class: 'btn btn-success' %>
 <% end %>
 
-<div>
-  <% if policy(Post.new).create? %>
-    <!-- ik moet nog even bij Olivier dubbelchecken wat die @topic precies doet-->
-    <%= link_to "New post", new_topic_post_path(@topic), class: 'btn btn-success' %>
-  <% end %>
+<div class="row">
+  <div class="col-md-8">
+    <p class="lead"><%= @topic.description %></p>
+
+
+
+    <% @posts.each do |post| %>
+      <div class="media">
+      <%= render partial: 'votes/voter', locals: { post: post } %>
+        <div class="media-body">
+          
+             <h4 class="media-heading">
+              <%= link_to (markdown post.title), [@topic, post] %>
+             </h4>
+
+                 
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+ <div class="col-md-4">
+   <% if policy(Post.new).create? %>
+     <%= link_to "New Post", new_topic_post_path(@topic), class: 'btn btn-success' %>
+   <% end %>
+ </div>
+
 </div>

@@ -54,3 +54,11 @@ gem 'bootstrap-sass', '~>3.1.1'
 gem 'faker'
 gem 'devise'
 gem 'pundit'
+
+group :test do
+  gem 'rspec-rails', '~> 3.1.0'
+end
+
+gem 'redcarpet'
+
+gem 'will_paginate', '~> 3.0.5'

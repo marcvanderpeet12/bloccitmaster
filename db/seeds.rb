@@ -1,66 +1,75 @@
 require 'faker'
-
+ 
 5.times do
-  user = User.new(
-    name: Faker::Name.name,
-    email: Faker::Internet.email,
-    password: Faker::Lorem.characters(10)
-    )
-  user.save!
-end
-users = User.all
+   user = User.new(
+     name:     Faker::Name.name,
+     email:    Faker::Internet.email,
+     password: Faker::Lorem.characters(10),
+   )
+   user.save!
+ end
+ users = User.all
 
-10.times do
-  Topic.create!(
-    name: Faker::Lorem.sentence,
-    description: Faker::Lorem.paragraph
-    )
-end
-topics = Topic.all
+ 15.times do
+   Topic.create!(
+     name:         Faker::Lorem.sentence,
+     description:  Faker::Lorem.paragraph
+   )
+ end
+ topics = Topic.all
 
-10.times do
-  Post.create!(
-    user: users.sample,
-    topic: topics.sample,
-    title: Faker::Lorem.sentence,
-    body: Faker::Lorem.paragraph
-    )
-end
 
-posts = Post.all
+ # Create Posts
+ 50.times do
+    post = Post.create!(
+     user: users.sample,
+     topic:  topics.sample,
+     title:  Faker::Lorem.sentence,
+     body:   Faker::Lorem.paragraph
+   )
 
-20.times do
-  Comment.create!(
-    post: posts.sample,
-    body: Faker::Lorem.paragraph
-  )
-end
+       post.update_attributes!(created_at: rand(10.minutes .. 1.year).ago)
+       post.update_rank
 
-#Eigen user om mee in te loggen
+ end
+ posts = Post.all
+ 
+ # Create Comments
+ 100.times do
+   Comment.create!(
+     user: users.sample,
+     post: posts.sample,
+     body: Faker::Lorem.paragraph
+   )
+ end
+
 admin = User.new(
-  name: 'Admin user',
-  email: 'admin@example.com',
-  password: 'helloworld',
-  role: 'admin'
-  )
-admin.save
+   name:     'Admin User',
+   email:    'admin3@example.com',
+   password: 'helloworld',
+   role:     'admin'
+ )
+ admin.save!
+ 
+ # Create a moderator
+ moderator = User.new(
+   name:     'Moderator User',
+   email:    'moderator3@example.com', 
+   password: 'helloworld',
+   role:     'moderator'
+ )
+ moderator.save!
+ 
+ # Create a member
+ member = User.new(
+   name:     'Member User',
+   email:    'member3@example.com',
+   password: 'helloworld'
+ )
+ member.save!
 
-moderator = User.new(
-  name: 'Moderate user',
-  email: 'moderator@example.com',
-  password: 'helloworld',
-  role: 'moderator'
-  )
-moderator.save
 
-member = User.new(
-  name: 'Member user',
-  email: 'member@example.com',
-  password: 'helloworld'
-  )
-member.save
-
-puts "seed finished!"
-# Dit seeds kan ik gebruken als ik wl stoeiten met authorize
-# Post.create!(title: "This is the first post", body: "And this is the body")
-# Post.create!(title: "This is the second post", body: "And this is the body")
+ 
+ puts "Seed finished"
+ puts "#{Post.count} posts created"
+ puts "#{Comment.count} comments created"
