@@ -6,11 +6,19 @@ class Vote < ActiveRecord::Base
 
   after_save :update_post
 
+  def up_vote?
+    value == 1
+  end
+  
+    def down_vote?
+    value == -1
+  end
+
   private
 
   def update_post
     #je roep hier dus een method aan in de post!
     post.update_rank
   end
-  
+
 end
