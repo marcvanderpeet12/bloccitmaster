@@ -3,6 +3,8 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :topic
   has_many :votes
+  has_many :favorites, dependent: :destroy
+
 
   default_scope { order('rank DESC')}
   # scope :ordered_by_title, -> { order(:name) }

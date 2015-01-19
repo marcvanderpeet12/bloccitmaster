@@ -1,4 +1,4 @@
-
+<%= content_tag :div, class: 'media', id: "comment-#{comment.id}" do %>
  
  <h4><%= comment.user.name %></h4>
   <small>
@@ -11,3 +11,5 @@
             <% end %>
     </p>
   </small>
+
+  <% end %>
