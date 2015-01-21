@@ -20,6 +20,7 @@ class PostsController < ApplicationController
     #What values are permitted and required?
     @topic = Topic.find(params[:topic_id])
     @post = current_user.posts.build(params.require(:post).permit(:title, :body))
+    
     @topic.posts << @post
     #wat bedoelen ze hiermee?
     # @post.topic

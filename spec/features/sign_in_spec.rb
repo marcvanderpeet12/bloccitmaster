@@ -1,28 +1,25 @@
 require 'rails_helper'
- 
- describe "Sign in flow" do
-   
-   include TestFactories
- 
-   describe "successful" do
-     it "redirects to the topics index" do
 
-       user = authenticated_user
-       visit root_path
+describe "Visiting profiles" do
 
-         within '.user-info' do
-         click_link 'Sign in'
-         end
+  include TestFactories
 
-         fill_in 'Email', with: user.email
-         fill_in 'Password', with: user.password
+  before do 
+     @user = authenticated_user
+     @post = associated_post(user: @user)
+     @comment = Comment.create(user: @user, body: "A Comment")
+  end
 
-        within 'form' do
-         click_link 'Sign in'
-        end
+  describe "not signed in" do
 
-        expect(current_path).to eq topics_path
+    it "shows profile" do
+      visit user_path(@user)
+      expect(current_path).to eq(user_path(@user))
 
-     end
-   end
- end
+       expect( page ).to have_content(@user.name)
+       expect( page ).to have_content(@post.title)
+       expect( page ).to have_content(@comment.body)
+    end
+
+  end
+end

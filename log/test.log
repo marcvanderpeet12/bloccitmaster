@@ -1,0 +1,1581 @@
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (8.8ms)[0m  [1mCREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "body" text, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer) [0m
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (1.5ms)[0m  [1mCREATE  INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_comments_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_comments_on_post_id' AND type='index'
+
+  [1m[36m (1.2ms)[0m  [1mCREATE  INDEX "index_comments_on_user_id" ON "comments" ("user_id")[0m
+  [1m[35m (1.4ms)[0m  CREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "topic_id" integer) 
+  [1m[36m (1.1ms)[0m  [1mCREATE  INDEX "index_posts_on_topic_id" ON "posts" ("topic_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_topic_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_topic_id' AND type='index'
+
+  [1m[36m (1.2ms)[0m  [1mCREATE  INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35m (1.2ms)[0m  CREATE TABLE "topics" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "public" boolean DEFAULT 't', "description" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "created_at" datetime, "updated_at" datetime, "role" varchar) [0m
+  [1m[35m (1.0ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (1.1ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (1.2ms)[0m  [1mCREATE TABLE "votes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "value" integer, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.1ms)[0m  CREATE  INDEX "index_votes_on_post_id" ON "votes" ("post_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_votes_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_votes_on_post_id' AND type='index'
+[0m
+  [1m[35m (1.1ms)[0m  CREATE  INDEX "index_votes_on_user_id" ON "votes" ("user_id")
+  [1m[36m (1.1ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (1.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118120034')
+  [1m[36m (1.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115130610')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115130656')
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115151717')[0m
+  [1m[35m (0.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115154602')
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115163023')[0m
+  [1m[35m (1.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115170946')
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115171116')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150116115937')
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:45.519232"], ["updated_at", "2015-01-18 12:05:45.519232"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.546166"], ["updated_at", "2015-01-18 12:05:45.546166"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.548921"], ["updated_at", "2015-01-18 12:05:45.548921"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.550443"], ["updated_at", "2015-01-18 12:05:45.550443"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.551881"], ["updated_at", "2015-01-18 12:05:45.551881"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.553286"], ["updated_at", "2015-01-18 12:05:45.553286"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", 1]]
+  [1m[35m (6.9ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:45.627324"], ["updated_at", "2015-01-18 12:05:45.627324"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.630784"], ["updated_at", "2015-01-18 12:05:45.630784"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.632664"], ["updated_at", "2015-01-18 12:05:45.632664"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.634981"], ["updated_at", "2015-01-18 12:05:45.634981"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.637890"], ["updated_at", "2015-01-18 12:05:45.637890"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.640635"], ["updated_at", "2015-01-18 12:05:45.640635"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.7ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:45.647635"], ["updated_at", "2015-01-18 12:05:45.647635"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.650893"], ["updated_at", "2015-01-18 12:05:45.650893"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.653180"], ["updated_at", "2015-01-18 12:05:45.653180"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.655326"], ["updated_at", "2015-01-18 12:05:45.655326"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.658144"], ["updated_at", "2015-01-18 12:05:45.658144"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:45.660562"], ["updated_at", "2015-01-18 12:05:45.660562"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.6ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:54.840895"], ["updated_at", "2015-01-18 12:05:54.840895"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.866233"], ["updated_at", "2015-01-18 12:05:54.866233"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.869291"], ["updated_at", "2015-01-18 12:05:54.869291"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.871035"], ["updated_at", "2015-01-18 12:05:54.871035"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.872821"], ["updated_at", "2015-01-18 12:05:54.872821"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.874255"], ["updated_at", "2015-01-18 12:05:54.874255"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", 1]]
+  [1m[35m (6.8ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:54.946050"], ["updated_at", "2015-01-18 12:05:54.946050"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.949158"], ["updated_at", "2015-01-18 12:05:54.949158"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.951413"], ["updated_at", "2015-01-18 12:05:54.951413"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.953173"], ["updated_at", "2015-01-18 12:05:54.953173"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.954783"], ["updated_at", "2015-01-18 12:05:54.954783"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.956421"], ["updated_at", "2015-01-18 12:05:54.956421"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "post title"], ["body", "post post post post post"], ["created_at", "2015-01-18 12:05:54.960813"], ["updated_at", "2015-01-18 12:05:54.960813"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.963888"], ["updated_at", "2015-01-18 12:05:54.963888"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.966131"], ["updated_at", "2015-01-18 12:05:54.966131"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.968002"], ["updated_at", "2015-01-18 12:05:54.968002"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.969439"], ["updated_at", "2015-01-18 12:05:54.969439"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 12:05:54.970970"], ["updated_at", "2015-01-18 12:05:54.970970"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.7ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:44:58.178469"], ["updated_at", "2015-01-18 14:44:58.178469"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5522257580589152@fake.com' LIMIT 1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.5522257580589152@fake.com"], ["encrypted_password", "$2a$04$1zIcOL8qPFj83ink6/mHm.Km1zxh588GBjNELxPfenddcYdi/5rT."], ["created_at", "2015-01-18 14:44:58.265676"], ["updated_at", "2015-01-18 14:44:58.265676"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:44:58.284042"], ["updated_at", "2015-01-18 14:44:58.284042"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.312350"], ["updated_at", "2015-01-18 14:44:58.312350"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.3ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656230139375], ["updated_at", "2015-01-18 14:44:58.317597"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.329072"], ["updated_at", "2015-01-18 14:44:58.329072"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656230139375], ["updated_at", "2015-01-18 14:44:58.332214"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.334708"], ["updated_at", "2015-01-18 14:44:58.334708"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.656230139375], ["updated_at", "2015-01-18 14:44:58.336547"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.338407"], ["updated_at", "2015-01-18 14:44:58.338407"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.0ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656230139375], ["updated_at", "2015-01-18 14:44:58.339761"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.341388"], ["updated_at", "2015-01-18 14:44:58.341388"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656230139375], ["updated_at", "2015-01-18 14:44:58.342704"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (1.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:44:58.350084"], ["updated_at", "2015-01-18 14:44:58.350084"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.4853674290186937@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.4853674290186937@fake.com"], ["encrypted_password", "$2a$04$T0GTnBH/zv5/W3XaH12KceDB3arhIvJ2CV1Sa4V0jwpF0Y5x8jXQ6"], ["created_at", "2015-01-18 14:44:58.355191"], ["updated_at", "2015-01-18 14:44:58.355191"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:44:58.358788"], ["updated_at", "2015-01-18 14:44:58.358788"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.362524"], ["updated_at", "2015-01-18 14:44:58.362524"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65623100449], ["updated_at", "2015-01-18 14:44:58.365119"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.367752"], ["updated_at", "2015-01-18 14:44:58.367752"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65623100449], ["updated_at", "2015-01-18 14:44:58.369684"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.371828"], ["updated_at", "2015-01-18 14:44:58.371828"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.65623100449], ["updated_at", "2015-01-18 14:44:58.373216"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.374867"], ["updated_at", "2015-01-18 14:44:58.374867"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.0ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65623100449], ["updated_at", "2015-01-18 14:44:58.376255"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.377897"], ["updated_at", "2015-01-18 14:44:58.377897"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65623100449], ["updated_at", "2015-01-18 14:44:58.379275"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:44:58.384695"], ["updated_at", "2015-01-18 14:44:58.384695"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.44155499153728295@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.44155499153728295@fake.com"], ["encrypted_password", "$2a$04$ilccaRSEDGLXsOLCTvyQa.LjKjwACo3XXBvC9GAMUwV/8Eo6wiLzm"], ["created_at", "2015-01-18 14:44:58.391281"], ["updated_at", "2015-01-18 14:44:58.391281"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:44:58.395311"], ["updated_at", "2015-01-18 14:44:58.395311"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.398585"], ["updated_at", "2015-01-18 14:44:58.398585"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656231427212], ["updated_at", "2015-01-18 14:44:58.400830"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.403719"], ["updated_at", "2015-01-18 14:44:58.403719"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656231427212], ["updated_at", "2015-01-18 14:44:58.405910"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.408326"], ["updated_at", "2015-01-18 14:44:58.408326"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.656231427212], ["updated_at", "2015-01-18 14:44:58.409857"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.411616"], ["updated_at", "2015-01-18 14:44:58.411616"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656231427212], ["updated_at", "2015-01-18 14:44:58.413213"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:44:58.415151"], ["updated_at", "2015-01-18 14:44:58.415151"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656231427212], ["updated_at", "2015-01-18 14:44:58.416636"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:45:43.110046"], ["updated_at", "2015-01-18 14:45:43.110046"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.21502601166020285@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.21502601166020285@fake.com"], ["encrypted_password", "$2a$04$7/24XtyCw0bIh.3p0BKlR.M9cFZBxnnN8owadU.Er3lLuh.P10cUq"], ["created_at", "2015-01-18 14:45:43.204666"], ["updated_at", "2015-01-18 14:45:43.204666"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:45:43.220308"], ["updated_at", "2015-01-18 14:45:43.220308"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.240317"], ["updated_at", "2015-01-18 14:45:43.240317"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.3ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656750235048], ["updated_at", "2015-01-18 14:45:43.243870"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.250506"], ["updated_at", "2015-01-18 14:45:43.250506"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656750235048], ["updated_at", "2015-01-18 14:45:43.252249"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.254261"], ["updated_at", "2015-01-18 14:45:43.254261"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.656750235048], ["updated_at", "2015-01-18 14:45:43.255689"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.257333"], ["updated_at", "2015-01-18 14:45:43.257333"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.656750235048], ["updated_at", "2015-01-18 14:45:43.258730"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.260380"], ["updated_at", "2015-01-18 14:45:43.260380"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.656750235048], ["updated_at", "2015-01-18 14:45:43.261764"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:45:43.274105"], ["updated_at", "2015-01-18 14:45:43.274105"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.895473084446835@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.895473084446835@fake.com"], ["encrypted_password", "$2a$04$Gsp.WeAWLcWcIgCJEHwoLeKs1zMQLX0.XvXvHeZlKmVrL0qkuDUja"], ["created_at", "2015-01-18 14:45:43.281603"], ["updated_at", "2015-01-18 14:45:43.281603"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:45:43.285302"], ["updated_at", "2015-01-18 14:45:43.285302"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.287712"], ["updated_at", "2015-01-18 14:45:43.287712"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65675098729], ["updated_at", "2015-01-18 14:45:43.289358"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.291168"], ["updated_at", "2015-01-18 14:45:43.291168"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65675098729], ["updated_at", "2015-01-18 14:45:43.292595"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.294667"], ["updated_at", "2015-01-18 14:45:43.294667"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.65675098729], ["updated_at", "2015-01-18 14:45:43.297284"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.300545"], ["updated_at", "2015-01-18 14:45:43.300545"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65675098729], ["updated_at", "2015-01-18 14:45:43.303045"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.305985"], ["updated_at", "2015-01-18 14:45:43.305985"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65675098729], ["updated_at", "2015-01-18 14:45:43.308413"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:45:43.313649"], ["updated_at", "2015-01-18 14:45:43.313649"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.3068307592866426@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.3068307592866426@fake.com"], ["encrypted_password", "$2a$04$L4972q43taBOXuE.rSyUquVenFWHKVsNGVb26Edte0YSgl5CTh99u"], ["created_at", "2015-01-18 14:45:43.319224"], ["updated_at", "2015-01-18 14:45:43.319224"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:45:43.322486"], ["updated_at", "2015-01-18 14:45:43.322486"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.324654"], ["updated_at", "2015-01-18 14:45:43.324654"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65675141766], ["updated_at", "2015-01-18 14:45:43.326475"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.328264"], ["updated_at", "2015-01-18 14:45:43.328264"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65675141766], ["updated_at", "2015-01-18 14:45:43.329682"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.331345"], ["updated_at", "2015-01-18 14:45:43.331345"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.65675141766], ["updated_at", "2015-01-18 14:45:43.332703"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.334411"], ["updated_at", "2015-01-18 14:45:43.334411"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.65675141766], ["updated_at", "2015-01-18 14:45:43.335769"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:45:43.337744"], ["updated_at", "2015-01-18 14:45:43.337744"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.65675141766], ["updated_at", "2015-01-18 14:45:43.339283"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:50:36.255002"], ["updated_at", "2015-01-18 14:50:36.255002"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.4536600198112839@fake.com' LIMIT 1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.4536600198112839@fake.com"], ["encrypted_password", "$2a$04$kU3SlnL9f8lu.tMkiGtvWOMCBGwxrty8OyDSHHUt164VT/f5DKWZ6"], ["created_at", "2015-01-18 14:50:36.342443"], ["updated_at", "2015-01-18 14:50:36.342443"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:50:36.361161"], ["updated_at", "2015-01-18 14:50:36.361161"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.384094"], ["updated_at", "2015-01-18 14:50:36.384094"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.4ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.66014306899], ["updated_at", "2015-01-18 14:50:36.389983"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.401447"], ["updated_at", "2015-01-18 14:50:36.401447"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.66014306899], ["updated_at", "2015-01-18 14:50:36.403864"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.406060"], ["updated_at", "2015-01-18 14:50:36.406060"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.66014306899], ["updated_at", "2015-01-18 14:50:36.407513"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.409201"], ["updated_at", "2015-01-18 14:50:36.409201"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.0ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.66014306899], ["updated_at", "2015-01-18 14:50:36.410607"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.412271"], ["updated_at", "2015-01-18 14:50:36.412271"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.66014306899], ["updated_at", "2015-01-18 14:50:36.413651"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:50:36.419571"], ["updated_at", "2015-01-18 14:50:36.419571"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.4417169003585095@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.4417169003585095@fake.com"], ["encrypted_password", "$2a$04$bEiROKFU29EYQggLAEEN1.G5ObSTBtThoS6lh7B.LxM5jtLdCB9fq"], ["created_at", "2015-01-18 14:50:36.424325"], ["updated_at", "2015-01-18 14:50:36.424325"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:50:36.427209"], ["updated_at", "2015-01-18 14:50:36.427209"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.429989"], ["updated_at", "2015-01-18 14:50:36.429989"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.660143833436], ["updated_at", "2015-01-18 14:50:36.432442"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.435927"], ["updated_at", "2015-01-18 14:50:36.435927"]]
+  [1m[35m (0.1ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.660143833436], ["updated_at", "2015-01-18 14:50:36.438041"], ["id", 1]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.440414"], ["updated_at", "2015-01-18 14:50:36.440414"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.660143833436], ["updated_at", "2015-01-18 14:50:36.442105"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.443870"], ["updated_at", "2015-01-18 14:50:36.443870"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.660143833436], ["updated_at", "2015-01-18 14:50:36.445271"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.447023"], ["updated_at", "2015-01-18 14:50:36.447023"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.660143833436], ["updated_at", "2015-01-18 14:50:36.448409"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 14:50:36.452494"], ["updated_at", "2015-01-18 14:50:36.452494"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9885843253809387@fake.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.9885843253809387@fake.com"], ["encrypted_password", "$2a$04$m.szsI2zEoN8sSokc8idFeyEDTgyFt5LC1czBdi0l67uB2A295uCi"], ["created_at", "2015-01-18 14:50:36.457302"], ["updated_at", "2015-01-18 14:50:36.457302"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be pretty long."], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 14:50:36.460329"], ["updated_at", "2015-01-18 14:50:36.460329"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.463772"], ["updated_at", "2015-01-18 14:50:36.463772"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.66014421677], ["updated_at", "2015-01-18 14:50:36.465651"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.467646"], ["updated_at", "2015-01-18 14:50:36.467646"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.66014421677], ["updated_at", "2015-01-18 14:50:36.469422"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.471323"], ["updated_at", "2015-01-18 14:50:36.471323"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.66014421677], ["updated_at", "2015-01-18 14:50:36.472862"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.474873"], ["updated_at", "2015-01-18 14:50:36.474873"]]
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["rank", 16455.66014421677], ["updated_at", "2015-01-18 14:50:36.476349"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["created_at", "2015-01-18 14:50:36.478139"], ["updated_at", "2015-01-18 14:50:36.478139"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.66014421677], ["updated_at", "2015-01-18 14:50:36.479651"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?  [["post_id", 1]]
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.44740592519902744@example.com' LIMIT 1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.44740592519902744@example.com"], ["encrypted_password", "$2a$04$G.WzNOQ5DylD.MwZF/Z.fOiujB3.nxxOfI.Z6rnljqp6GoxobwCJG"], ["created_at", "2015-01-18 15:06:03.785452"], ["updated_at", "2015-01-18 15:06:03.785452"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 15:06:03.798272"], ["updated_at", "2015-01-18 15:06:03.798272"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.7544220490134211@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.7544220490134211@example.com"], ["encrypted_password", "$2a$04$biiLp5uuKFNPJEzm7FeWNurPjTVhxz919ftg3LwOKUXSL1W1ijwyS"], ["created_at", "2015-01-18 15:06:03.805310"], ["updated_at", "2015-01-18 15:06:03.805310"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-18 15:06:03.834661"], ["updated_at", "2015-01-18 15:06:03.834661"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.642641831668364@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.642641831668364@example.com"], ["encrypted_password", "$2a$04$ZgKE1x3dQNlGPrF.okywB.tsmXSQQG1IhZQv7ZPrREH5bKBFzmnvO"], ["created_at", "2015-01-18 15:08:53.101783"], ["updated_at", "2015-01-18 15:08:53.101783"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 15:08:53.110651"], ["updated_at", "2015-01-18 15:08:53.110651"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.44876205344647946@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.44876205344647946@example.com"], ["encrypted_password", "$2a$04$QspUq8zOdf1srJDT7aV7POT1LLhgsu5eiJswf/CGJ3rPNi6n/RekO"], ["created_at", "2015-01-18 15:08:53.116559"], ["updated_at", "2015-01-18 15:08:53.116559"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-18 15:08:53.138098"], ["updated_at", "2015-01-18 15:08:53.138098"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6960293896004879@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.6960293896004879@example.com"], ["encrypted_password", "$2a$04$H51Cufpwk2NamlFN6dxG6ukw5iVA.QJmeWLP8XHVCdFxPIZVOMJ32"], ["created_at", "2015-01-18 15:09:11.909841"], ["updated_at", "2015-01-18 15:09:11.909841"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 15:09:11.918801"], ["updated_at", "2015-01-18 15:09:11.918801"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9125137030611112@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.9125137030611112@example.com"], ["encrypted_password", "$2a$04$60gt11wLMApa49aL0IExl.Y5cB9LhgvdgxXu6oMFZ4TDMbfC.9iTa"], ["created_at", "2015-01-18 15:09:11.924983"], ["updated_at", "2015-01-18 15:09:11.924983"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-18 15:09:11.948859"], ["updated_at", "2015-01-18 15:09:11.948859"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (7.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.7ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 15:35:58.503596"], ["updated_at", "2015-01-18 15:35:58.503596"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.2529840163034366@example.com' LIMIT 1[0m
+  [1m[35mSQL (1.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.2529840163034366@example.com"], ["encrypted_password", "$2a$04$hXNvafKxumfbatoWd4N3r.wYEqxSt6aIQsSjKPv10NazWYCf8.2tC"], ["created_at", "2015-01-18 15:35:58.690953"], ["updated_at", "2015-01-18 15:35:58.690953"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.6ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 15:35:58.749273"], ["updated_at", "2015-01-18 15:35:58.749273"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.4332543994104423@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.4332543994104423@example.com"], ["encrypted_password", "$2a$04$Mps6V6byfQBN7ybWM.R9JemzCkoZJ.n1rg8f8H7sEoRITSKXuQtS6"], ["created_at", "2015-01-18 15:35:58.765633"], ["updated_at", "2015-01-18 15:35:58.765633"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (1.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-18 15:35:58.792836"], ["updated_at", "2015-01-18 15:35:58.792836"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6807329465943475@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.6807329465943475@example.com"], ["encrypted_password", "$2a$04$sWvm59I1DQQ5JKvTvUPxUuejuSYjAshGFhNJ0sPVXBaebaEUuf1y2"], ["created_at", "2015-01-18 15:35:58.807849"], ["updated_at", "2015-01-18 15:35:58.807849"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-18 15:35:58.816371"], ["updated_at", "2015-01-18 15:35:58.816371"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.039514398253777894@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.039514398253777894@example.com"], ["encrypted_password", "$2a$04$bj7V26iTLeebayEf37iKK.EbfFEMcdTGjP3EmnIBTroydyvnKAzda"], ["created_at", "2015-01-18 15:35:58.833905"], ["updated_at", "2015-01-18 15:35:58.833905"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (1.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (1.3ms)[0m  [1mCREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "body" text, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer) [0m
+  [1m[35m (0.5ms)[0m  select sqlite_version(*)
+  [1m[36m (1.4ms)[0m  [1mCREATE  INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_comments_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_comments_on_post_id' AND type='index'
+
+  [1m[36m (1.1ms)[0m  [1mCREATE  INDEX "index_comments_on_user_id" ON "comments" ("user_id")[0m
+  [1m[35m (1.3ms)[0m  CREATE TABLE "favorites" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (1.1ms)[0m  [1mCREATE  INDEX "index_favorites_on_post_id" ON "favorites" ("post_id")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_favorites_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_favorites_on_post_id' AND type='index'
+
+  [1m[36m (1.2ms)[0m  [1mCREATE  INDEX "index_favorites_on_user_id" ON "favorites" ("user_id")[0m
+  [1m[35m (1.1ms)[0m  CREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "topic_id" integer, "rank" float) 
+  [1m[36m (1.2ms)[0m  [1mCREATE  INDEX "index_posts_on_topic_id" ON "posts" ("topic_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_topic_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_topic_id' AND type='index'
+
+  [1m[36m (1.2ms)[0m  [1mCREATE  INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35m (1.6ms)[0m  CREATE TABLE "topics" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "public" boolean DEFAULT 't', "description" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (1.6ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "created_at" datetime, "updated_at" datetime, "role" varchar, "email_favorites" boolean DEFAULT 'f') [0m
+  [1m[35m (1.5ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (2.4ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (1.4ms)[0m  [1mCREATE TABLE "votes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "value" integer, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.4ms)[0m  CREATE  INDEX "index_votes_on_post_id" ON "votes" ("post_id")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_votes_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_votes_on_post_id' AND type='index'
+[0m
+  [1m[35m (1.4ms)[0m  CREATE  INDEX "index_votes_on_user_id" ON "votes" ("user_id")
+  [1m[36m (1.4ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (1.5ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (1.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118154154')
+  [1m[36m (1.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115130610')[0m
+  [1m[35m (1.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115130656')
+  [1m[36m (1.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115151717')[0m
+  [1m[35m (1.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115154602')
+  [1m[36m (1.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115163023')[0m
+  [1m[35m (1.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150115170946')
+  [1m[36m (1.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150115171116')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150116115937')
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118120034')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20150118141044')
+  [1m[36m (1.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20150118154026')[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 17:11:50.473638"], ["updated_at", "2015-01-19 17:11:50.473638"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9879468351586908@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.9879468351586908@example.com"], ["encrypted_password", "$2a$04$wGvggPXNCNan9usnyQfjDupGn8AEJtH9FadOLDOeVaib6KWxiiU4G"], ["created_at", "2015-01-19 17:11:50.566176"], ["updated_at", "2015-01-19 17:11:50.566176"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 17:11:50.593022"], ["updated_at", "2015-01-19 17:11:50.593022"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6827375196864015@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.6827375196864015@example.com"], ["encrypted_password", "$2a$04$7W54yzOI3wBXO3NAlYADbOddAs0KGowpstIMMnV0bJITuef0a7wxm"], ["created_at", "2015-01-19 17:11:50.598982"], ["updated_at", "2015-01-19 17:11:50.598982"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 17:11:50.630859"], ["updated_at", "2015-01-19 17:11:50.630859"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My comment"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 17:11:50.720953"], ["updated_at", "2015-01-19 17:11:50.720953"]]
+  [1m[35mFavorite Load (0.1ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (1.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 17:11:50.731489"], ["updated_at", "2015-01-19 17:11:50.731489"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8038969214541121@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.8038969214541121@example.com"], ["encrypted_password", "$2a$04$6.ckKHGS9VYPgi6j.N0H0umbIXvF3IERWrEzepHmhFp47mTeAI1DO"], ["created_at", "2015-01-19 17:11:50.736308"], ["updated_at", "2015-01-19 17:11:50.736308"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 17:11:50.739270"], ["updated_at", "2015-01-19 17:11:50.739270"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5474330192841427@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.5474330192841427@example.com"], ["encrypted_password", "$2a$04$JTNaU8f2vqMSKT6MXDb.8eb8a3dDPbsUUpucbM.QHPW3TJ7YtaDKq"], ["created_at", "2015-01-19 17:11:50.743620"], ["updated_at", "2015-01-19 17:11:50.743620"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["body", "My comment"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 17:11:50.746627"], ["updated_at", "2015-01-19 17:11:50.746627"]]
+  [1m[36mFavorite Load (0.0ms)[0m  [1mSELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 17:15:35.822300"], ["updated_at", "2015-01-19 17:15:35.822300"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.15035435921053486@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.15035435921053486@example.com"], ["encrypted_password", "$2a$04$8ZWFXRNk73zp7djC2.iYDOD7zYGOepmg7ECCE7PUbTk2OvTytaWdG"], ["created_at", "2015-01-19 17:15:35.905931"], ["updated_at", "2015-01-19 17:15:35.905931"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 17:15:35.932467"], ["updated_at", "2015-01-19 17:15:35.932467"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.7889878308977409@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.7889878308977409@example.com"], ["encrypted_password", "$2a$04$lmUA7EWP8lIaXDG5pY7ao.rlIl1i5EBAoBPPXX7FKalusLoOBILKe"], ["created_at", "2015-01-19 17:15:35.937552"], ["updated_at", "2015-01-19 17:15:35.937552"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFavorite Load (0.1ms)[0m  [1mSELECT  "favorites".* FROM "favorites" WHERE "favorites"."user_id" = ? AND "favorites"."post_id" = ?  ORDER BY "favorites"."id" ASC LIMIT 1[0m  [["user_id", 2], ["post_id", 1]]
+  [1m[35m (6.8ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Topic name"], ["created_at", "2015-01-19 17:15:35.960566"], ["updated_at", "2015-01-19 17:15:35.960566"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.09309984226073698@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.09309984226073698@example.com"], ["encrypted_password", "$2a$04$P.b6AQTwnZbBe9acXi70v.N3pGvlhqBkZJAa/uug64ungwlvHeA2e"], ["created_at", "2015-01-19 17:15:35.966353"], ["updated_at", "2015-01-19 17:15:35.966353"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 17:15:35.969576"], ["updated_at", "2015-01-19 17:15:35.969576"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.191605049995482@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.191605049995482@example.com"], ["encrypted_password", "$2a$04$bCx3cDE35GklXcwlo8LHyOf4Yhj2B1XdeFFVZBmZXajTkKLzK75Qy"], ["created_at", "2015-01-19 17:15:35.973962"], ["updated_at", "2015-01-19 17:15:35.973962"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 17:15:35.980854"], ["updated_at", "2015-01-19 17:15:35.980854"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFavorite Load (0.0ms)[0m  [1mSELECT  "favorites".* FROM "favorites" WHERE "favorites"."user_id" = ? AND "favorites"."post_id" = ?  ORDER BY "favorites"."id" ASC LIMIT 1[0m  [["user_id", 2], ["post_id", 1]]
+  [1m[35m (0.7ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "topics" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-01-19 17:37:53.589833"], ["updated_at", "2015-01-19 17:37:53.589833"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "topics" ("public", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["public", "f"], ["created_at", "2015-01-19 17:37:53.596508"], ["updated_at", "2015-01-19 17:37:53.596508"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" WHERE "topics"."public" = 't'[0m
+  [1m[35m (0.7ms)[0m  rollback transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "topics" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-01-19 17:37:53.662983"], ["updated_at", "2015-01-19 17:37:53.662983"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("public", "created_at", "updated_at") VALUES (?, ?, ?)  [["public", "f"], ["created_at", "2015-01-19 17:37:53.665920"], ["updated_at", "2015-01-19 17:37:53.665920"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mTopic Load (0.1ms)[0m  SELECT "topics".* FROM "topics" WHERE "topics"."public" = 'f'
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-01-19 17:37:53.671668"], ["updated_at", "2015-01-19 17:37:53.671668"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "topics" ("public", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["public", "f"], ["created_at", "2015-01-19 17:37:53.673700"], ["updated_at", "2015-01-19 17:37:53.673700"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-01-19 17:37:53.677770"], ["updated_at", "2015-01-19 17:37:53.677770"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "topics" ("public", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["public", "f"], ["created_at", "2015-01-19 17:37:53.680338"], ["updated_at", "2015-01-19 17:37:53.680338"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (2.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8310236874755232@example.com' LIMIT 1
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8310236874755232@example.com"], ["encrypted_password", "$2a$04$P/FtEudwvwcgsyt3.6ABGOiO.xghrXAQNs4nBmXmoaVIEzOdE4Hza"], ["created_at", "2015-01-19 17:45:46.265783"], ["updated_at", "2015-01-19 17:45:46.265783"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.3490917534664595@example.com' LIMIT 1
+  [1m[36mSQL (1.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.3490917534664595@example.com"], ["encrypted_password", "$2a$04$dQN2T01N9YMHC9RHBtwB9.8rvbg6xibKhekamjcyVdnLSp01bl.C."], ["created_at", "2015-01-19 17:48:02.373263"], ["updated_at", "2015-01-19 17:48:02.373263"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/" for 127.0.0.1 at 2015-01-19 17:48:02 +0000
+Processing by WelcomeController#index as HTML
+  Rendered welcome/index.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 8559ms (Views: 8524.3ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.4ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.2805507740698334@example.com' LIMIT 1
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.2805507740698334@example.com"], ["encrypted_password", "$2a$04$.XasMWrNSP7d7emGOouuPuOLbX50W9otFxJ4L74P3L0tu7uwfe2C2"], ["created_at", "2015-01-19 17:48:35.282477"], ["updated_at", "2015-01-19 17:48:35.282477"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/" for 127.0.0.1 at 2015-01-19 17:48:35 +0000
+Processing by WelcomeController#index as HTML
+  Rendered welcome/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 89ms (Views: 54.4ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.7ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8314075686659756@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8314075686659756@example.com"], ["encrypted_password", "$2a$04$ZTow7PYiL.LNPVD4N.UYiO0zbroYqG8TMyZV9r17VYa3HyjbLCqdO"], ["created_at", "2015-01-19 17:48:51.723173"], ["updated_at", "2015-01-19 17:48:51.723173"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/" for 127.0.0.1 at 2015-01-19 17:48:51 +0000
+Processing by WelcomeController#index as HTML
+  Rendered welcome/index.html.erb within layouts/application (1.1ms)
+Completed 200 OK in 81ms (Views: 47.4ms | ActiveRecord: 0.0ms)
+Started GET "/users/sign_in" for 127.0.0.1 at 2015-01-19 17:48:51 +0000
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (11.1ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (428.9ms)
+Completed 200 OK in 441ms (Views: 437.8ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.06207019214070619@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.06207019214070619@example.com"], ["encrypted_password", "$2a$04$4wzqy7JIbm1O9XHkiPb4we/v32k6qWFMp2NHsorumEU8PLAuEHIPa"], ["created_at", "2015-01-19 17:50:05.076297"], ["updated_at", "2015-01-19 17:50:05.076297"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/" for 127.0.0.1 at 2015-01-19 17:50:05 +0000
+Processing by WelcomeController#index as HTML
+  Rendered welcome/index.html.erb within layouts/application (1.1ms)
+Completed 200 OK in 86ms (Views: 47.1ms | ActiveRecord: 0.0ms)
+Started GET "/users/sign_in" for 127.0.0.1 at 2015-01-19 17:50:05 +0000
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (9.3ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (366.6ms)
+Completed 200 OK in 376ms (Views: 373.8ms | ActiveRecord: 0.0ms)
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:43:30.183649"], ["updated_at", "2015-01-19 20:43:30.183649"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.24755422835652452@example.com' LIMIT 1[0m
+  [1m[35mSQL (1.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.24755422835652452@example.com"], ["encrypted_password", "$2a$04$9yitMM0ZbyEB/So/lIlO8OTAwS8ZT9ppL./Lond/SCs5wuYwhbx7W"], ["created_at", "2015-01-19 20:43:30.277570"], ["updated_at", "2015-01-19 20:43:30.277570"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:43:30.304174"], ["updated_at", "2015-01-19 20:43:30.304174"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.10192735391358343@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.10192735391358343@example.com"], ["encrypted_password", "$2a$04$KNf34zsoLqQNNPjaa8R7W.7heyZyXNWSlhcsf0jxTEfpDyjEw.7fy"], ["created_at", "2015-01-19 20:43:30.314797"], ["updated_at", "2015-01-19 20:43:30.314797"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.8ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:43:30.345669"], ["updated_at", "2015-01-19 20:43:30.345669"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:43:30.382304"], ["updated_at", "2015-01-19 20:43:30.382304"]]
+  [1m[35mFavorite Load (0.2ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (1.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:43:30.453637"], ["updated_at", "2015-01-19 20:43:30.453637"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.4903960874659764@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.4903960874659764@example.com"], ["encrypted_password", "$2a$04$Buh8ScY3Y0.77ddmNj7tTu4KAbn3qXyXp7CWqBJDJZGAULa.cs2jm"], ["created_at", "2015-01-19 20:43:30.458336"], ["updated_at", "2015-01-19 20:43:30.458336"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:43:30.461437"], ["updated_at", "2015-01-19 20:43:30.461437"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.3596131112569455@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.3596131112569455@example.com"], ["encrypted_password", "$2a$04$vEc0CSTI/muj0GEK/55CD.DMXpsQ3OFwbyAEkCbbcsVCQQmNDINzK"], ["created_at", "2015-01-19 20:43:30.465934"], ["updated_at", "2015-01-19 20:43:30.465934"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:43:30.468879"], ["updated_at", "2015-01-19 20:43:30.468879"]]
+  [1m[36mFavorite Load (0.0ms)[0m  [1mSELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:43:30.473546"], ["updated_at", "2015-01-19 20:43:30.473546"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.19762323542409865@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.19762323542409865@example.com"], ["encrypted_password", "$2a$04$RLRXHBkQFODUf8faGMspPuE9aharEwrwqDnVzzk7N5Azh6GgJXaiW"], ["created_at", "2015-01-19 20:43:30.478199"], ["updated_at", "2015-01-19 20:43:30.478199"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:43:30.481072"], ["updated_at", "2015-01-19 20:43:30.481072"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9828334284669824@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.9828334284669824@example.com"], ["encrypted_password", "$2a$04$07hOgg8ecOK./xrFcjNPB.nOm7MpZDyWSQrVigd/Mbw6WQ5217782"], ["created_at", "2015-01-19 20:43:30.485570"], ["updated_at", "2015-01-19 20:43:30.485570"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:43:30.490005"], ["updated_at", "2015-01-19 20:43:30.490005"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:43:30.493492"], ["updated_at", "2015-01-19 20:43:30.493492"]]
+  [1m[35mFavorite Load (0.1ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:53:37.554598"], ["updated_at", "2015-01-19 20:53:37.554598"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.28898234141673174@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.28898234141673174@example.com"], ["encrypted_password", "$2a$04$01aShuvpHIyutV5Yd7LPHOOqxLmFV0Jq2ktov19C7sdtYC8OOdUsK"], ["created_at", "2015-01-19 20:53:37.636470"], ["updated_at", "2015-01-19 20:53:37.636470"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:53:37.661170"], ["updated_at", "2015-01-19 20:53:37.661170"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6313559261590153@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.6313559261590153@example.com"], ["encrypted_password", "$2a$04$iABSsPD/srkwerem83qYu./OfQoczwhFBQcg9F829EzX0FV6ECR.."], ["created_at", "2015-01-19 20:53:37.666442"], ["updated_at", "2015-01-19 20:53:37.666442"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:53:37.688794"], ["updated_at", "2015-01-19 20:53:37.688794"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:53:37.710051"], ["updated_at", "2015-01-19 20:53:37.710051"]]
+  [1m[35mFavorite Load (0.2ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (7.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:53:37.784662"], ["updated_at", "2015-01-19 20:53:37.784662"]]
+  [1m[36m (0.4ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5347555226656453@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.5347555226656453@example.com"], ["encrypted_password", "$2a$04$CNdPLa0odrjfNZpJD8JS8.d/yaHN4iNs3exnSjpWgydlX3e3e2mFq"], ["created_at", "2015-01-19 20:53:37.790416"], ["updated_at", "2015-01-19 20:53:37.790416"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:53:37.793577"], ["updated_at", "2015-01-19 20:53:37.793577"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.1675869277013562@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.1675869277013562@example.com"], ["encrypted_password", "$2a$04$I1PGBSV8RSNMjrZunp5S.u0zG7lL.N.mhu9/cWKHnogo2br60Z9dm"], ["created_at", "2015-01-19 20:53:37.797695"], ["updated_at", "2015-01-19 20:53:37.797695"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:53:37.800578"], ["updated_at", "2015-01-19 20:53:37.800578"]]
+  [1m[36mFavorite Load (0.0ms)[0m  [1mSELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:53:37.805639"], ["updated_at", "2015-01-19 20:53:37.805639"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5321506806367027@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.5321506806367027@example.com"], ["encrypted_password", "$2a$04$ackL79wF6WdoH1VQwn7IAe0ppa0hGUMjMD7sT3volWgp/.9NzD37y"], ["created_at", "2015-01-19 20:53:37.810635"], ["updated_at", "2015-01-19 20:53:37.810635"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:53:37.813667"], ["updated_at", "2015-01-19 20:53:37.813667"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.23840961626082613@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.23840961626082613@example.com"], ["encrypted_password", "$2a$04$ipzZeflDhc88eM0L5Rr4/.H8gRXlCu8nEInGyHcwN58WCLWBLECG."], ["created_at", "2015-01-19 20:53:37.818531"], ["updated_at", "2015-01-19 20:53:37.818531"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:53:37.821836"], ["updated_at", "2015-01-19 20:53:37.821836"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:53:37.824308"], ["updated_at", "2015-01-19 20:53:37.824308"]]
+  [1m[35mFavorite Load (0.0ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:55:06.358163"], ["updated_at", "2015-01-19 20:55:06.358163"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.1798147331643627@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.1798147331643627@example.com"], ["encrypted_password", "$2a$04$APxqBfu1S/8l.cvdLe5/oOiihBs/ouSOixGY1yF8figqIR3w9qeGO"], ["created_at", "2015-01-19 20:55:06.440197"], ["updated_at", "2015-01-19 20:55:06.440197"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:55:06.459503"], ["updated_at", "2015-01-19 20:55:06.459503"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5719926797769777@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.5719926797769777@example.com"], ["encrypted_password", "$2a$04$Kego8D2fqogh3Kp/eGdBD.a4YBjnZXIVWSgR1/3Ai9xXso1v.1/wS"], ["created_at", "2015-01-19 20:55:06.464507"], ["updated_at", "2015-01-19 20:55:06.464507"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:55:06.486422"], ["updated_at", "2015-01-19 20:55:06.486422"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:55:06.508136"], ["updated_at", "2015-01-19 20:55:06.508136"]]
+  [1m[35mFavorite Load (0.2ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (7.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:55:06.582212"], ["updated_at", "2015-01-19 20:55:06.582212"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.838627177814471@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.838627177814471@example.com"], ["encrypted_password", "$2a$04$sP6NmRD6yKKhzaoIFFCHs.igWGZw3TYibZ31510FWLLxmKqSfnqES"], ["created_at", "2015-01-19 20:55:06.587171"], ["updated_at", "2015-01-19 20:55:06.587171"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:55:06.590044"], ["updated_at", "2015-01-19 20:55:06.590044"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5590649498401102@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.5590649498401102@example.com"], ["encrypted_password", "$2a$04$37bNKIJqPpiR1dQhKdV4h.csLoHIp6Wrow2yvwy3Nj.y8Olw87UL6"], ["created_at", "2015-01-19 20:55:06.594139"], ["updated_at", "2015-01-19 20:55:06.594139"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:55:06.597008"], ["updated_at", "2015-01-19 20:55:06.597008"]]
+  [1m[36mFavorite Load (0.0ms)[0m  [1mSELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-19 20:55:06.602610"], ["updated_at", "2015-01-19 20:55:06.602610"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.43253792384674594@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.43253792384674594@example.com"], ["encrypted_password", "$2a$04$nHwCvryHQz2hd/TuoDhKmuOmAn/903jKFij6r9/DemgMbwHRn35JG"], ["created_at", "2015-01-19 20:55:06.608279"], ["updated_at", "2015-01-19 20:55:06.608279"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 1], ["created_at", "2015-01-19 20:55:06.611252"], ["updated_at", "2015-01-19 20:55:06.611252"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.7166747811033485@example.com' LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.7166747811033485@example.com"], ["encrypted_password", "$2a$04$vRsMMBef9YSPEVtRNl2Ya.FYsO97zLqLH7vxcVriJuS3MnsvNbLqG"], ["created_at", "2015-01-19 20:55:06.616305"], ["updated_at", "2015-01-19 20:55:06.616305"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "favorites" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["user_id", 2], ["post_id", 1], ["created_at", "2015-01-19 20:55:06.619556"], ["updated_at", "2015-01-19 20:55:06.619556"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "comments" ("body", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["body", "My body"], ["post_id", 1], ["user_id", 10000], ["created_at", "2015-01-19 20:55:06.621807"], ["updated_at", "2015-01-19 20:55:06.621807"]]
+  [1m[35mFavorite Load (0.1ms)[0m  SELECT "favorites".* FROM "favorites" WHERE "favorites"."post_id" = ?  [["post_id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.13808829436801429@example.com' LIMIT 1
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.13808829436801429@example.com"], ["encrypted_password", "$2a$04$AC6Sy8gmZfQVq3jhK2x4zuuShB0yavzrnN86l475rCNoQtNKVBBiq"], ["created_at", "2015-01-20 15:43:37.633547"], ["updated_at", "2015-01-20 15:43:37.633547"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/" for 127.0.0.1 at 2015-01-20 15:43:37 +0000
+Processing by WelcomeController#index as HTML
+  Rendered welcome/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 6200ms (Views: 6165.7ms | ActiveRecord: 0.0ms)
+Started GET "/users/sign_in" for 127.0.0.1 at 2015-01-20 15:43:43 +0000
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (10.4ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (430.8ms)
+Completed 200 OK in 442ms (Views: 439.1ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.8ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.46112075076420567@example.com' LIMIT 1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.46112075076420567@example.com"], ["encrypted_password", "$2a$04$1u9b/EMWNqWGp3zVFQi3iuEyVqNvs2ydvcW8hGlcoXQc0.tFxjgWO"], ["created_at", "2015-01-20 15:50:14.741739"], ["updated_at", "2015-01-20 15:50:14.741739"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.353014250478189@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.353014250478189@example.com"], ["encrypted_password", "$2a$04$Zn5FfRYhSHTVhTWVICXntOs2U98pBBxE2Sc37tvMnJSztbHg3NnZ6"], ["created_at", "2015-01-20 15:51:04.654900"], ["updated_at", "2015-01-20 15:51:04.654900"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9597692142988247@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.9597692142988247@example.com"], ["encrypted_password", "$2a$04$DiGsCmGAjM7U3WFemMb7g.H7kp.oOifE3/HUuoJQ7nwoY5fnRzITS"], ["created_at", "2015-01-20 15:52:28.803979"], ["updated_at", "2015-01-20 15:52:28.803979"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/1" for 127.0.0.1 at 2015-01-20 15:52:28 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 92ms
+  [1m[35m (0.5ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9675703949971651@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.9675703949971651@example.com"], ["encrypted_password", "$2a$04$y73jvxcBZYP84CTfYXTg3.F2OQFcpX2BYNs25ru5/79yY0FDkc/Ui"], ["created_at", "2015-01-20 15:53:30.709480"], ["updated_at", "2015-01-20 15:53:30.709480"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/1" for 127.0.0.1 at 2015-01-20 15:53:30 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 94ms
+  [1m[35m (0.5ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.11885378580774109@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.11885378580774109@example.com"], ["encrypted_password", "$2a$04$KJ1Ofc1i/pfI3.Ky/4k8UuU1nVAbPQeiQ83QO6oUyU9UZnoMUoXjq"], ["created_at", "2015-01-20 15:53:39.371987"], ["updated_at", "2015-01-20 15:53:39.371987"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/1" for 127.0.0.1 at 2015-01-20 15:53:39 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 86ms
+  [1m[35m (0.5ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8022030727716659@example.com' LIMIT 1
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8022030727716659@example.com"], ["encrypted_password", "$2a$04$Tz6H0.By7eLgAfTZ5w3tAOVWreNerlhSRzSySjjzSuORdw8uNjK22"], ["created_at", "2015-01-20 15:55:51.243764"], ["updated_at", "2015-01-20 15:55:51.243764"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/1" for 127.0.0.1 at 2015-01-20 15:55:51 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  Rendered users/show.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 223ms (Views: 148.5ms | ActiveRecord: 0.4ms)
+  [1m[35m (0.5ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.38604463547832657@example.com' LIMIT 1
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.38604463547832657@example.com"], ["encrypted_password", "$2a$04$STxomBaDh4ACtSbvQ43aP.JyCjpvRBXwEQ2r/Rog4nSx9ZurgH8B2"], ["created_at", "2015-01-20 15:58:00.883023"], ["updated_at", "2015-01-20 15:58:00.883023"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+Started GET "/users/1" for 127.0.0.1 at 2015-01-20 15:58:00 +0000
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  Rendered users/show.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 225ms (Views: 143.7ms | ActiveRecord: 0.5ms)
+  [1m[35m (0.4ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8788604371924391@example.com' LIMIT 1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8788604371924391@example.com"], ["encrypted_password", "$2a$04$k31VjZ2RwN0b3mNjeHGcMeXHivDmNX8QDbdKlHBwYNB748PyIqxRC"], ["created_at", "2015-01-20 16:28:42.295588"], ["updated_at", "2015-01-20 16:28:42.295588"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:28:42.308329"], ["updated_at", "2015-01-20 16:28:42.308329"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9418142028937029@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.9418142028937029@example.com"], ["encrypted_password", "$2a$04$X8o.gLMA9OJhrIbBqW4MU.LHD12BVKIThbgXXs6Et3s8X6pHa.DBu"], ["created_at", "2015-01-20 16:28:42.317801"], ["updated_at", "2015-01-20 16:28:42.317801"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:28:42.348222"], ["updated_at", "2015-01-20 16:28:42.348222"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9641567354656058@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.9641567354656058@example.com"], ["encrypted_password", "$2a$04$AnMfb1dZyyHBrRHEqvhXE.6xvTijDwBVpyYrjRUO3TNmQ1AF5IaJK"], ["created_at", "2015-01-20 16:28:42.358757"], ["updated_at", "2015-01-20 16:28:42.358757"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:28:42.361275"], ["updated_at", "2015-01-20 16:28:42.361275"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.23942653619132515@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.23942653619132515@example.com"], ["encrypted_password", "$2a$04$oh0dyw.i33uLVOc71.dDt.bd61fiPjfoCzN7vXzsZBEAq6zDvb6jW"], ["created_at", "2015-01-20 16:28:42.366926"], ["updated_at", "2015-01-20 16:28:42.366926"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:28:42.370101"], ["updated_at", "2015-01-20 16:28:42.370101"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.010543559470093111@example.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.010543559470093111@example.com"], ["encrypted_password", "$2a$04$.pfY4SB.c5NVUGoN.H/s.ucXsoJVegSdEfEBIv3CDg3VgYKXPq.pq"], ["created_at", "2015-01-20 16:33:19.912765"], ["updated_at", "2015-01-20 16:33:19.912765"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:33:19.923360"], ["updated_at", "2015-01-20 16:33:19.923360"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.3033971482967681@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.3033971482967681@example.com"], ["encrypted_password", "$2a$04$vxMiVIsC6BC0OJfNZgrR1OIzZ0uTu2./nZF75kDWn1ySKxqlWI5BS"], ["created_at", "2015-01-20 16:33:19.929814"], ["updated_at", "2015-01-20 16:33:19.929814"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:33:19.958618"], ["updated_at", "2015-01-20 16:33:19.958618"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6721315417098654@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.6721315417098654@example.com"], ["encrypted_password", "$2a$04$QCx8h8oRJlK/II6T7PO4oe4UxxTkDL.ZJ64ASvQZmaE42/8oUM8lW"], ["created_at", "2015-01-20 16:33:19.973998"], ["updated_at", "2015-01-20 16:33:19.973998"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:33:19.975906"], ["updated_at", "2015-01-20 16:33:19.975906"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.36760786200659545@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.36760786200659545@example.com"], ["encrypted_password", "$2a$04$xm4B9/yWAy6VcVCVrjF26OwmCGfF0GwvYalT4YUYAQG6/wawWtK26"], ["created_at", "2015-01-20 16:33:19.980725"], ["updated_at", "2015-01-20 16:33:19.980725"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:33:19.983904"], ["updated_at", "2015-01-20 16:33:19.983904"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.11615934484285961@example.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.11615934484285961@example.com"], ["encrypted_password", "$2a$04$oIjVlhz0GZblynJ4tWAAo.u7Ij8naHkY0GSynBa7rE/43JFKk21ce"], ["created_at", "2015-01-20 16:35:21.354587"], ["updated_at", "2015-01-20 16:35:21.354587"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:35:21.365716"], ["updated_at", "2015-01-20 16:35:21.365716"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.7415907199007841@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.7415907199007841@example.com"], ["encrypted_password", "$2a$04$U4owrn7oOoyIeRoeCZHTW.sPiHbbYSnz/xRJiKY3CuJNP6heTt0Am"], ["created_at", "2015-01-20 16:35:21.371487"], ["updated_at", "2015-01-20 16:35:21.371487"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:35:21.394805"], ["updated_at", "2015-01-20 16:35:21.394805"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (6.9ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.16645560344854382@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.16645560344854382@example.com"], ["encrypted_password", "$2a$04$P0kPNB0pSoWpzVkWqL/yfeoIzcajXnPbIivpobNiDUFcXdX0VIkSG"], ["created_at", "2015-01-20 16:35:21.411557"], ["updated_at", "2015-01-20 16:35:21.411557"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:35:21.414247"], ["updated_at", "2015-01-20 16:35:21.414247"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.10619069452959551@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.10619069452959551@example.com"], ["encrypted_password", "$2a$04$xovFkeGpx/WjwMt1bCCvb.NV99c2KtS4bhsQOPYLL8mqet2Gc7W/2"], ["created_at", "2015-01-20 16:35:21.419395"], ["updated_at", "2015-01-20 16:35:21.419395"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:35:21.422741"], ["updated_at", "2015-01-20 16:35:21.422741"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9459882988390134@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.9459882988390134@example.com"], ["encrypted_password", "$2a$04$z0fSNo0UtCbX/39Fkw/KauQzTBTMv4qwgjelZdw8Z8iDZrCpxS/Ee"], ["created_at", "2015-01-20 16:36:30.258253"], ["updated_at", "2015-01-20 16:36:30.258253"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:36:30.268055"], ["updated_at", "2015-01-20 16:36:30.268055"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.32661204838592295@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.32661204838592295@example.com"], ["encrypted_password", "$2a$04$/aszDtMhcoWoQSui.8AcCuPjHA9CNHjv5X.wGIC4iNP6rpZEFkXMC"], ["created_at", "2015-01-20 16:36:30.275245"], ["updated_at", "2015-01-20 16:36:30.275245"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:36:30.298539"], ["updated_at", "2015-01-20 16:36:30.298539"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", 1]]
+Processing by VotesController#up_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.5ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:36:30.361894"], ["updated_at", "2015-01-20 16:36:30.361894"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.733684010866], ["updated_at", "2015-01-20 16:36:30.366245"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to /
+Completed 302 Found in 34ms (ActiveRecord: 2.0ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (0.7ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8051151296103731@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8051151296103731@example.com"], ["encrypted_password", "$2a$04$.2Ygr40SQ110V/./tFdnnO2mxr2yQ1pLROtraEwWEGr1j5Yu1aEsi"], ["created_at", "2015-01-20 16:36:30.378836"], ["updated_at", "2015-01-20 16:36:30.378836"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:36:30.381261"], ["updated_at", "2015-01-20 16:36:30.381261"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.6275079785171725@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.6275079785171725@example.com"], ["encrypted_password", "$2a$04$h25NT2L0Dhd8sAX/drqVKey/QBBLiUeVvqgxe3KeXjX1O/oAZtX3u"], ["created_at", "2015-01-20 16:36:30.387543"], ["updated_at", "2015-01-20 16:36:30.387543"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:36:30.391730"], ["updated_at", "2015-01-20 16:36:30.391730"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", -1]]
+Processing by VotesController#down_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.1ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.0ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:36:30.401041"], ["updated_at", "2015-01-20 16:36:30.401041"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.733685089464], ["updated_at", "2015-01-20 16:36:30.404426"], ["id", 1]]
+  [1m[36m (62.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to 
+Completed 500 Internal Server Error in 74ms
+  [1m[35m (0.6ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.584048034569526@example.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.584048034569526@example.com"], ["encrypted_password", "$2a$04$yR7AANEPs5B51pfr3pSd7.XjMiTGlwz5QExdNRTrQ0bxLH.iuy83y"], ["created_at", "2015-01-20 16:37:41.555758"], ["updated_at", "2015-01-20 16:37:41.555758"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:37:41.574126"], ["updated_at", "2015-01-20 16:37:41.574126"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5228172289642116@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.5228172289642116@example.com"], ["encrypted_password", "$2a$04$QTO1sNRwWA89s1ZdDX87POOmHLKLtktwAaUUiQ05cTCkkuH6cimfS"], ["created_at", "2015-01-20 16:37:41.580363"], ["updated_at", "2015-01-20 16:37:41.580363"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:37:41.604449"], ["updated_at", "2015-01-20 16:37:41.604449"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", 1]]
+Processing by VotesController#up_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.2ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.1ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:37:41.648670"], ["updated_at", "2015-01-20 16:37:41.648670"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.734509310754], ["updated_at", "2015-01-20 16:37:41.652513"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to /
+Completed 302 Found in 89ms (ActiveRecord: 1.3ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (0.7ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.29050323251942956@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.29050323251942956@example.com"], ["encrypted_password", "$2a$04$p5e5xaGfL/LRwKc9vWsyG.slwzx63OaVtubgeuZkzyNxcR04F6vJm"], ["created_at", "2015-01-20 16:37:41.725918"], ["updated_at", "2015-01-20 16:37:41.725918"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:37:41.729035"], ["updated_at", "2015-01-20 16:37:41.729035"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.9602658554484346@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.9602658554484346@example.com"], ["encrypted_password", "$2a$04$190ejzeVLRIiWsayb9OA3.YnsbEbvuB1QSfatTzTG4.jqgFThzIRK"], ["created_at", "2015-01-20 16:37:41.734285"], ["updated_at", "2015-01-20 16:37:41.734285"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:37:41.737068"], ["updated_at", "2015-01-20 16:37:41.737068"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", -1]]
+Processing by VotesController#down_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.1ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.1ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:37:41.747942"], ["updated_at", "2015-01-20 16:37:41.747942"]]
+  [1m[36m (0.1ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.734510845694], ["updated_at", "2015-01-20 16:37:41.750565"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to 
+Completed 500 Internal Server Error in 12ms
+  [1m[35m (0.6ms)[0m  rollback transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.5790832959062011@example.com' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.5790832959062011@example.com"], ["encrypted_password", "$2a$04$fC.p1XL0ZZ1INbAJZZLL/u9BIQtaqNbMGRETbICW4GezFjEK4SdtC"], ["created_at", "2015-01-20 16:39:10.665297"], ["updated_at", "2015-01-20 16:39:10.665297"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:39:10.676320"], ["updated_at", "2015-01-20 16:39:10.676320"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.34370277461023035@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.34370277461023035@example.com"], ["encrypted_password", "$2a$04$AhinXgJEs9rPBJo1zeEJ2O3dQxF05KwEYlpZt65NMp63Ae72zZvuO"], ["created_at", "2015-01-20 16:39:10.685207"], ["updated_at", "2015-01-20 16:39:10.685207"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:39:10.710118"], ["updated_at", "2015-01-20 16:39:10.710118"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", 1]]
+Processing by VotesController#up_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.3ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.3ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", 1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:39:10.757851"], ["updated_at", "2015-01-20 16:39:10.757851"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.2ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16456.735540626363], ["updated_at", "2015-01-20 16:39:10.761921"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to /
+Completed 302 Found in 33ms (ActiveRecord: 1.6ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", 1]]
+  [1m[36m (7.2ms)[0m  [1mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8668544730715535@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["email", "email0.8668544730715535@example.com"], ["encrypted_password", "$2a$04$xoSG8tVpkm0RzHDNLMHn2O0vxvzVbk2ptJvXi7xcdT9zMbk0/sklS"], ["created_at", "2015-01-20 16:39:10.782343"], ["updated_at", "2015-01-20 16:39:10.782343"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "topics" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Topic name"], ["created_at", "2015-01-20 16:39:10.785863"], ["updated_at", "2015-01-20 16:39:10.785863"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email0.8213019576401387@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["email", "email0.8213019576401387@example.com"], ["encrypted_password", "$2a$04$1QPUvhT38DEh0IVsqeCUle/z1JokxQ8bjjOGQYUMfIRV26pUYmnmS"], ["created_at", "2015-01-20 16:39:10.791085"], ["updated_at", "2015-01-20 16:39:10.791085"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "posts" ("title", "body", "topic_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Post title"], ["body", "Post bodies must be long"], ["topic_id", 1], ["user_id", 2], ["created_at", "2015-01-20 16:39:10.863122"], ["updated_at", "2015-01-20 16:39:10.863122"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?[0m  [["post_id", 1], ["value", -1]]
+Processing by VotesController#down_vote as HTML
+  Parameters: {"post_id"=>"1"}
+  [1m[35mPost Load (0.1ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ?  ORDER BY rank DESC LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mVote Load (0.1ms)[0m  SELECT  "votes".* FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."user_id" = ?  ORDER BY "votes"."id" ASC LIMIT 1  [["post_id", 1], ["user_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "votes" ("value", "post_id", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["value", -1], ["post_id", 1], ["user_id", 1], ["created_at", "2015-01-20 16:39:10.875638"], ["updated_at", "2015-01-20 16:39:10.875638"]]
+  [1m[36m (0.0ms)[0m  [1mSELECT SUM("votes"."value") FROM "votes" WHERE "votes"."post_id" = ?[0m  [["post_id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "posts" SET "rank" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["rank", 16454.735542397244], ["updated_at", "2015-01-20 16:39:10.877723"], ["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to /
+Completed 302 Found in 10ms (ActiveRecord: 0.6ms)
+  [1m[35m (0.0ms)[0m  SELECT COUNT(*) FROM "votes" WHERE "votes"."post_id" = ? AND "votes"."value" = ?  [["post_id", 1], ["value", -1]]
+  [1m[36m (0.8ms)[0m  [1mrollback transaction[0m

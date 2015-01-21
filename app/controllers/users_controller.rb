@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
 
+  before_action :authenticate_user!, except: [:show]
+
+  def index
+    @users = User.all
+    
+  end
+
   def show
+    # @topic = Topic.find(params[:id])
     @user = User.find(params[:id])
     @posts = @user.posts
     @comments = @user.comments
